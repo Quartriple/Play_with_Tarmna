@@ -1,0 +1,28 @@
+# 파이썬 환경 관련
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+env/
+.env
+
+# 데이터 관련
+data/raw/
+data/processed/
+data/augmented/
+*.csv
+*.jsonl
+*.txt
+*.xlsx
+*.parquet
+
+# 모델 관련
+models/
+*.pt
+*.bin
+*.pth
+
+# Jupyter Notebook 관련
+.ipynb_checkpoints/
