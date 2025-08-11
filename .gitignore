@@ -26,3 +26,24 @@ models/
 
 # Jupyter Notebook 관련
 .ipynb_checkpoints/
+
+# Spring (Java) 관련
+/target/
+/build/
+.gradle/
+*.class
+*.jar
+*.war
+.project
+.classpath
+.settings/
+bin/
+
+# React (JavaScript) 관련
+/node_modules/
+/build/
+.cache/
+.eslintcache
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
