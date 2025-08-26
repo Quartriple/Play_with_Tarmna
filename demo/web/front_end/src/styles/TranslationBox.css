@@ -1,32 +1,52 @@
+@font-face {
+    font-family: 'JejuStoneWall';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2210-EF@1.0/EF_jejudoldam.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 .translation-box {
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #FFFFFF;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
   width: 100%;
   display: flex;
   flex-direction: column;
-  height: 400px;
+  height: 500px;
   position: relative;
+  overflow: hidden;
 }
 
 .box-header {
   padding: 15px;
-  font-size: 18px;
-  font-weight: bold;
-  color: #444;
-  border-bottom: 1px solid #eee;
+  font-size: 22px;
+  font-weight: 500;
+  /* 배경을 흰색으로 통일하여 미니멀리즘 강조 */
+  background-color: #FFFFFF;
+  /* 글자색을 차분하게 변경 */
+  color: #4A4A4A;
+  border-bottom: 1px solid #EBEBEB;
+  /* 헤더의 상단 모서리도 둥글게 */
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
 }
 
 .text-area {
+  font-family: 'JejuStoneWall', sans-serif;
   flex-grow: 1;
   border: none;
   resize: none;
   padding: 20px;
-  font-size: 16px;
+  font-size: 20px;
   line-height: 1.6;
-  color: #555;
+  /* 글자색을 부드럽게 변경 */
+  color: #4A4A4A;
   outline: none;
   background: transparent;
+  /* 하단 모서리를 둥글게 */
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
 }
 
 .text-area::placeholder {
@@ -39,22 +59,32 @@
   text-align: right;
 }
 
+/* 요청에 따라 번역 버튼은 건드리지 않음 */
 .translate-button {
+  font-family: 'JejuStoneWall', sans-serif;
   background-color: #007bff;
-  color: #fff;
+  color: #f0f0f0;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
   transition: background-color 0.3s;
+  background-image: url('../../public/images/anime-style-stone-texture.png');
+  background-size: cover;
+  background-repeat: repeat;
+  background-position: center;
+  background-size: 200px 200px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .translate-button:hover {
-  background-color: #0056b3;
+  filter: brightness(1.1);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
 }
 
 .translate-button:disabled {
-  background-color: #cccccc;
-  cursor: not-allowed;
+  filter: grayscale(100%);
+  opacity: 0.7;
 }

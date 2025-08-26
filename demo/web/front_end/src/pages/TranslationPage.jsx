@@ -1,75 +1,86 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import TranslationBox from '../components/TranslationBox';
 import DirectionToggle from '../components/DirectionToggle';
 import '../styles/TranslationPage.css';
+import { io } from "socket.io-client";
+
+const socket = io("http://localhost:5000", {
+  transports: ['websocket']
+});
 
 function TranslationPage() {
   const [direction, setDirection] = useState('jeju-to-std');
   const [sourceText, setSourceText] = useState('');
-  const [translatedText, setTranslatedText] = useState('');
+  const [renderedText, setRenderedText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const renderedTextRef = useRef('');
 
-  // 번역 방향을 전환하는 함수
+  useEffect(() => {
+    socket.on('connect', () => {
+      console.log('웹소켓 연결 성공:', socket.id);
+    });
+    socket.on('disconnect', () => {
+      console.log('웹소켓 연결 해제');
+    });
+    socket.on('connect_error', (err) => {
+      console.error('웹소켓 연결 오류:', err.message);
+    });
+
+    socket.on('translation_update', (data) => {
+      console.log("웹소켓으로부터 데이터 수신:", data);
+
+      if (data.is_complete) {
+        setIsLoading(false);
+        console.log("번역 완료 메시지 수신.");
+      } else {
+        renderedTextRef.current += data.text;
+        setRenderedText(renderedTextRef.current);
+      }
+    });
+
+    return () => {
+      socket.off('translation_update');
+      socket.off('connect');
+      socket.off('disconnect');
+      socket.off('connect_error');
+    };
+  }, []);
+
   const handleToggle = () => {
-    // 이전 번역 결과를 새로운 입력 텍스트로 설정합니다.
-    const newSourceText = translatedText;
+    const newSourceText = renderedText;
     const newDirection = direction === 'jeju-to-std' ? 'std-to-jeju' : 'jeju-to-std';
-    
-    // 상태를 업데이트합니다.
+
     setSourceText(newSourceText);
     setDirection(newDirection);
-    setTranslatedText(''); // 이전 출력 텍스트 초기화
+    setRenderedText('');
+    renderedTextRef.current = '';
 
-    // 만약 이전 번역 결과가 비어있지 않다면, 자동으로 번역을 시작합니다.
     if (newSourceText.trim() !== '') {
       handleTranslate(newSourceText, newDirection);
     }
   };
 
-  const handleTranslate = async (textToTranslate = sourceText, currentDirection = direction) => {
+  const handleTranslate = (textToTranslate = sourceText, currentDirection = direction) => {
     if (!textToTranslate) {
       alert("번역할 텍스트를 입력해주세요.");
       return;
     }
-    
+
     setIsLoading(true);
+    setRenderedText('');
+    renderedTextRef.current = '';
 
-    try {
-      const prefixToken = currentDirection === 'jeju-to-std' ? '[제주]' : '[표준]';
-      const textToSend = `${prefixToken} ${textToTranslate}`;
-
-      const apiUrl = 'http://localhost:5000';
-      const endpoint = '/translate';
-
-      const response = await fetch(`${apiUrl}${endpoint}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          text: textToSend,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      setTranslatedText(data.translated_text);
-      
-    } catch (error) {
-      console.error("번역 중 오류가 발생했습니다:", error);
-      setTranslatedText("번역에 실패했습니다. 잠시 후 다시 시도해주세요.");
-    } finally {
-      setIsLoading(false);
-    }
+    const prefixToken = currentDirection === 'jeju-to-std' ? '[제주]' : '[표준]';
+    socket.emit('request_translation', {
+      text: textToTranslate,
+      direction: prefixToken
+    });
   };
 
   return (
     <div className="translation-page-container">
       <header className="page-header">
-        <h1>✨ 옴팡: 제주 방언 번역기</h1>
+        <h1>Jejusatoru</h1>
       </header>
       <main className="translation-main">
         <div className="translation-inputs">
@@ -85,12 +96,12 @@ function TranslationPage() {
           <TranslationBox
             type="output"
             language={direction === 'jeju-to-std' ? '표준어' : '제주어'}
-            text={isLoading ? '번역 중...' : translatedText}
+            text={renderedText}
           />
         </div>
       </main>
       <footer className="page-footer">
-        <p>ⓒ 2025 Team Ompang. All Rights Reserved.</p>
+        <p>Jejusatoru는 실수를 할 수 있으니 다시 한번 확인하세요.</p>
       </footer>
     </div>
   );
