@@ -1,0 +1,23 @@
+.toggle-button {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.toggle-button:hover {
+  transform: scale(1.1);
+}
+
+.toggle-icon {
+  fill: #007bff;
+  width: 24px;
+  height: 24px;
+}

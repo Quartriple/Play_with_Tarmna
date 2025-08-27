@@ -1,0 +1,66 @@
+@font-face {
+    font-family: 'JejuStoneWall';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2210-EF@1.0/EF_jejudoldam.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  sans-serif;
+  font-family: 'JejuStoneWall', sans-serif;
+  background-color: #F7F9FC;
+}
+
+.translation-page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  justify-content: space-between;
+}
+
+.page-header {
+  /* 배경을 Gemini처럼 밝고 부드럽게 변경 */
+  background-color: #FFFFFF;
+  padding: 20px 40px;
+  text-align: left;
+  /* 그림자를 더 은은하고 넓게 퍼지도록 변경 */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border-bottom: none;
+}
+
+.page-header h1 {
+  margin: 0;
+  /* 글자색을 차분한 짙은 회색으로 변경 */
+  color: #4A4A4A;
+  font-size: 19px;
+  font-weight: 500;
+  letter-spacing: -0.5px;
+}
+
+.translation-main {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.translation-inputs {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.page-footer {
+  text-align: center;
+  padding: 15px;
+  /* 글자색을 더 부드러운 톤으로 변경 */
+  color: #999;
+  font-size: 14px;
+}
