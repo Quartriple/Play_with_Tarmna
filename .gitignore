@@ -21,6 +21,7 @@ data/augmented/
 # 모델 관련
 models/*
 !models/README.md
+!models/.gitk
 *.pt
 *.bin
 *.pth
