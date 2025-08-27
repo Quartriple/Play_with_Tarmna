@@ -19,7 +19,9 @@ data/augmented/
 *.parquet
 
 # 모델 관련
-models/
+models/*
+!models/README.md
+!models/.gitk
 *.pt
 *.bin
 *.pth
